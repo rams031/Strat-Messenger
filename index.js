@@ -4,6 +4,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const db = require("./db/db");
+const errorHandler = require("./errorHandler");
 const app = express();
 const port = 5000;
 
@@ -13,15 +14,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 mongoose.connect(db, {});
+ 
+process.on("uncaughtException", function (error) {
+  console.log(error.stack);
+});
 
 const UserRouter = require("./routes/user/user");
 
 app.use("/user/", UserRouter);
 
 app.get("/", (req, res) => {
-  res.send("welcome");
+  res.send("Server Working");
 });
+
+app.use(errorHandler);
 
 app.listen(port, (res, req) => {
   console.log(`Example app listening at http://localhost:${port}`);
+  console.log(mongoose.connection.readyState);
 });
