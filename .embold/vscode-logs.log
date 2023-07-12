@@ -1,0 +1,12 @@
+2023-07-12 09:33:43 info: tempDirectory:c:\Users\Xypher Solutions Inc\.vscode\extensions\embold-vscode.embold-0.1.5\temp
+2023-07-12 09:33:43 info: Extraction complete for source: c:\Users\Xypher Solutions Inc\.vscode\extensions\embold-vscode.embold-0.1.5\resources\embold-scanner-archive.zip, destination: c:\Users\Xypher Solutions Inc\.vscode\extensions\embold-vscode.embold-0.1.5\temp
+2023-07-12 09:33:43 info: Congratulations, your extension "Embold" is now active!
+2023-07-12 10:50:50 info: file:///c%3A/Users/Xypher%20Solutions%20Inc/Desktop/Strat/BE/model/messages
+2023-07-12 10:50:50 error: SQLITE_ERROR: no such table: issues
+2023-07-12 13:08:27 info: file:///c%3A/Users/Xypher%20Solutions%20Inc/Desktop/Strat/BE/.git/index.lock
+2023-07-12 13:08:27 error: SQLITE_ERROR: no such table: issues
+2023-07-12 13:09:11 info: file:///c%3A/Users/Xypher%20Solutions%20Inc/Desktop/Strat/BE/.git/index.lock
+2023-07-12 13:09:11 error: SQLITE_ERROR: no such table: issues
+2023-07-12 13:53:26 info: tempDirectory:c:\Users\Xypher Solutions Inc\.vscode\extensions\embold-vscode.embold-0.1.5\temp
+2023-07-12 13:53:26 info: Extraction complete for source: c:\Users\Xypher Solutions Inc\.vscode\extensions\embold-vscode.embold-0.1.5\resources\embold-scanner-archive.zip, destination: c:\Users\Xypher Solutions Inc\.vscode\extensions\embold-vscode.embold-0.1.5\temp
+2023-07-12 13:53:26 info: Congratulations, your extension "Embold" is now active!

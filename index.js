@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
+const jwt = require('jsonwebtoken');
 const db = require("./db/db");
 const errorHandler = require("./errorHandler");
 const app = express();
@@ -20,8 +21,10 @@ process.on("uncaughtException", function (error) {
 });
 
 const UserRouter = require("./routes/user/user");
+const RoomRouter = require("./routes/room/room");
 
 app.use("/user/", UserRouter);
+app.use("/room/", RoomRouter);
 
 app.get("/", (req, res) => {
   res.send("Server Working");
