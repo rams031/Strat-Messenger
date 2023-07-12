@@ -1,4 +1,5 @@
 const express = require("express");
+const jwt = require("jsonwebtoken");
 
 const view = (model, res, next) => {
   model
@@ -27,8 +28,17 @@ const login = (model, body, res, next) => {
   model
     .find({ email })
     .then((result) => {
-      if (result && password === result[0].password)
-        return res.status(201).send({ data: result,  message: "Successfully Logged In" });
+      if (result && password === result[0].password) {
+        const token = generateAccessToken({ ...result[0] });
+
+        return res
+          .status(201)
+          .send({
+            data: result,
+            token: token,
+            message: "Successfully Logged In",
+          });
+      }
 
       return res.status(422).send({ message: "Invalid Credential" });
     })
@@ -37,7 +47,12 @@ const login = (model, body, res, next) => {
     });
 };
 
+const generateAccessToken = (data) => {
+  return jwt.sign(data, "secret", { expiresIn: "10h" });
+};
+
 module.exports = {
+  generateAccessToken,
   create,
   view,
   login,
