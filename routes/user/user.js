@@ -5,7 +5,7 @@ const auth = require("./../../middleware/auth");
 const { create, view, login } = require("./../../action/action");
 
 router.get("/", auth, (req, res, next) => {
-	console.log(`req:`, req.user);
+	
 
 	const getAllUser = view(UserModel, res, next);
 	return getAllUser;
