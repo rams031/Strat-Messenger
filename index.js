@@ -22,9 +22,11 @@ process.on("uncaughtException", function (error) {
 
 const UserRouter = require("./routes/user/user");
 const RoomRouter = require("./routes/room/room");
+const ParticipantRouter = require("./routes/participant/participant");
 
 app.use("/user/", UserRouter);
 app.use("/room/", RoomRouter);
+app.use("/participant/", ParticipantRouter);
 
 app.get("/", (req, res) => {
   res.send("Server Working");

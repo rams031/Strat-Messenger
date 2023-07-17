@@ -12,6 +12,19 @@ const view = (model, res, next) => {
     });
 };
 
+const viewOne = (model, body, res, next) => {
+  const { _id } = body;
+
+  model
+    .findOne({ _id })
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((err) => {
+      return next(err);
+    });
+};
+
 const create = (model, body, res, next) => {
   model
     .create(body)
