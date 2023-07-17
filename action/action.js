@@ -34,7 +34,7 @@ const login = (model, body, res, next) => {
         return res
           .status(201)
           .send({
-            data: result,
+            ...result,
             token: token,
             message: "Successfully Logged In",
           });
