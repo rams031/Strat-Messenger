@@ -20,6 +20,18 @@ process.on("uncaughtException", function (error) {
   console.log(error.stack);
 });
 
+const { client } = require("./db/redis");
+
+(async () => {
+  await client.connect();
+  client.flushDb();
+})();
+
+client.on("error", (err) => console.log("Redis error " + err));
+client.on("connect", () => console.log("Redis Connected"));
+client.on("ready", () => console.log("Redis Ready"));
+
+
 const UserRouter = require("./routes/user/user");
 const RoomRouter = require("./routes/room/room");
 const ParticipantRouter = require("./routes/participant/participant");

@@ -1,11 +1,13 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
+const { saveCache } = require("../db/redis");
 
-const view = (model, res, next) => {
+const view = (model, res, req, next) => {
   model
     .find()
     .then((response) => {
-      res.status(200).send(response);
+      saveCache(req, response);
+      return res.status(200).send(response);
     })
     .catch((err) => {
       return next(err);
@@ -44,13 +46,11 @@ const login = (model, body, res, next) => {
       if (result && password === result[0].password) {
         const token = generateAccessToken({ ...result[0] });
 
-        return res
-          .status(201)
-          .send({
-            ...result,
-            token: token,
-            message: "Successfully Logged In",
-          });
+        return res.status(201).send({
+          ...result,
+          token: token,
+          message: "Successfully Logged In",
+        });
       }
 
       return res.status(422).send({ message: "Invalid Credential" });

@@ -12,7 +12,7 @@ router.get("/", (req, res, next) => {
 });
 
 router.post("/createroom", auth, async (req, res, next) => {
-	const { roomName, participants, user } = req.body;
+	const { roomName, participants } = req.body;
 	const { _id: userId } = req.user;
 
 	await RoomModel.create({ roomName })
