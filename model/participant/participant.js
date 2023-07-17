@@ -1,16 +1,18 @@
 const mongoose = require("mongoose");
 
-const MessageScheme = mongoose.Schema(
-  {
-    userId: {
-      type: String,
-    },
-    roomId: {
-        type: String,
-      },
-    userType: String,
-  },
-  { timestamps: true }
+const ParticipantScheme = mongoose.Schema(
+	{
+		userId: {
+			type: String,
+			ref: "User",
+		},
+		roomId: {
+			type: String,
+			ref: "Room",
+		},
+		userType: String,
+	},
+	{ timestamps: true }
 );
 
-module.exports = mongoose.model("Message", MessageScheme);
+module.exports = mongoose.model("Participant", ParticipantScheme);

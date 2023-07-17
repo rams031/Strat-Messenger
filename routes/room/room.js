@@ -4,30 +4,49 @@ const ParticipantModel = require("./../../model/participant/participant");
 
 const auth = require("./../../middleware/auth");
 const { create, view, login } = require("./../../action/action");
+const user = require("../../model/user/user");
 
 router.get("/", (req, res, next) => {
-  console.log("working");
+	console.log("working");
+	res.status(200).send({ message: "Testing Water for Room" });
 });
 
-router.post("/createroom", auth, (req, res, next) => {
-  const params = { roomName: "testRoom1" };
+router.post("/createroom", auth, async (req, res, next) => {
+	const { roomName, participants } = req.body;
 
-  RoomModel.create(params)
-    .then((response) => {
-      const { _id } = response || {};
-      console.log(`_id:`, _id);
+	await user
+		.find({ _id: participants })
+		.then(() => {
+			RoomModel.create({ ...roomName })
+				.then(async (response) => {
+					const { _id } = response || {};
+					if (!_id) return res.status(400).send({ message: "Having Problem" });
 
-      if (!_id) return res.status(400).send({ message: "Having Problem" });
+					const convertedParticipants = [];
 
-      //   const participantParams =  { roomId: _id, userId:  }
+					participants.map((participant) => {
+						const formatted = {
+							userId: participant,
+							roomId: _id,
+							userType: "Admin",
+						};
+						return convertedParticipants.push(formatted);
+					});
 
-      ParticipantModel.create();
-
-      console.log("_id", _id);
-    })
-    .catch((err) => {
-      return next(err);
-    });
+					await ParticipantModel.insertMany(convertedParticipants).then(
+						(result) => {
+							res.status(201).send(result);
+						}
+					);
+				})
+				.catch((err) => {
+					return next(err);
+				});
+		})
+		.catch((err) => {
+			console.log(err);
+			return res.status(422).send({ message: "Invalid participants" });
+		});
 });
 
 module.exports = router;
