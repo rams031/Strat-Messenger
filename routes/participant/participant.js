@@ -10,14 +10,13 @@ router.get("/chats", auth, async (req, res, next) => {
 
 	const getAllParticipant = await ParticipantModel.find({
 		userId: userId,
-	})
-		.populate({
+	}).populate({
 			path: "roomId",
 			select: ["roomName"],
 		})
 		.exec();
-	console.log(getAllParticipant);
-	return res.send(getAllParticipant);
+
+	return res.status(200).send(getAllParticipant);
 });
 
 router.get("/", auth, (req, res, next) => {
