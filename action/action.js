@@ -61,7 +61,7 @@ const login = (model, body, res, next) => {
 };
 
 const generateAccessToken = (data) => {
-  return jwt.sign(data, "secret", { expiresIn: "10h" });
+  return jwt.sign(data, "secret");
 };
 
 module.exports = {
