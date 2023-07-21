@@ -1,11 +1,15 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const { Server } = require("socket.io");
+const { createAdapter } = require("@socket.io/redis-streams-adapter");
+
 const mongoose = require("mongoose");
 const morgan = require("morgan");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 const db = require("./db/db");
 const errorHandler = require("./errorHandler");
+const { client } = require("./db/redis");
 const app = express();
 const port = 5000;
 
@@ -15,22 +19,31 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 mongoose.connect(db, {});
- 
+
 process.on("uncaughtException", function (error) {
   console.log(error.stack);
 });
-
-const { client } = require("./db/redis");
 
 (async () => {
   await client.connect();
   client.flushDb();
 })();
 
+const io = new Server({
+  adapter: createAdapter(client),
+});
+console.log(`io:`, io)
+
+io.on("connection", (socket) => {
+  console.log(socket.id); // ojIckSD2jqNzOqIrAGzL
+});
+
 client.on("error", (err) => console.log("Redis error " + err));
 client.on("connect", () => console.log("Redis Connected"));
-client.on("ready", () => console.log("Redis Ready"));
-
+client.on("ready", () => {
+  console.log("Redis Ready");
+});
+ 
 
 const UserRouter = require("./routes/user/user");
 const RoomRouter = require("./routes/room/room");

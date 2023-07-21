@@ -1,12 +1,18 @@
 require("dotenv").config();
 const crypto = require("crypto");
 const { createClient } = require("redis");
-var jwt = require("jsonwebtoken");
+ 
+const jwt = require("jsonwebtoken");
 
 const client = createClient({
-  url: "redis://default:MVpYGc4bW8654L6VS5PzuKpjrt5q3gJo@redis-16518.c14.us-east-1-2.ec2.cloud.redislabs.com:16518",
+  password: "MVpYGc4bW8654L6VS5PzuKpjrt5q3gJo",
+  socket: {
+    host: "redis-16518.c14.us-east-1-2.ec2.cloud.redislabs.com",
+    port: 16518,
+  },
 });
 
+ 
 const redisConfig = {
   EX: 86400, // Expiration
   NX: true, // Writable

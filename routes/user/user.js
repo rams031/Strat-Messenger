@@ -5,7 +5,7 @@ const auth = require("./../../middleware/auth");
 const { create, view, login } = require("./../../action/action");
 const cache = require("../../middleware/cache");
 
-router.get("/", auth, cache, (req, res, next) => {
+router.get("/", (req, res, next) => {
   const getAllUser = view(UserModel, res, req, next);
   return getAllUser;
 });

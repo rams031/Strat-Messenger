@@ -5,7 +5,7 @@ const ParticipantModel = require("./../../model/participant/participant");
 const auth = require("./../../middleware/auth");
 const { view } = require("./../../action/action");
 
-router.get("/chats", auth, async (req, res, next) => {
+router.get("/chats", async (req, res, next) => {
 	const { _id: userId } = req.user;
 
 	const getAllParticipant = await ParticipantModel.find({
@@ -19,7 +19,7 @@ router.get("/chats", auth, async (req, res, next) => {
 	return res.status(200).send(getAllParticipant);
 });
 
-router.get("/", auth, (req, res, next) => {
+router.get("/", (req, res, next) => {
 	const getAllParticipant = view(ParticipantModel, res, next);
 	return getAllParticipant;
 });
