@@ -79,8 +79,7 @@ const saveCache = async (req, data) => {
 
 const clearCache = (key) => {
   const hashKey = stringToHash(key);
-  console.log(`hashKey key clear:`, hashKey);
-  return client.del(hashKey).then((res) => console.log("res", res));
+  return client.del(hashKey).then();
 };
 
 module.exports = { client, redisConfig, clearCache, saveCache };

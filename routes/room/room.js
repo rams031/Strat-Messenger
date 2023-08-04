@@ -11,7 +11,7 @@ router.get("/", (req, res, next) => {
 	res.status(200).send({ message: "Testing Water for Room" });
 });
 
-router.post("/createroom", async (req, res, next) => {
+router.post("/createroom", auth, async (req, res, next) => {
 	const { roomName, participants } = req.body;
 	const { _id: userId } = req.user;
 

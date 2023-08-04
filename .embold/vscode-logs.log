@@ -26,3 +26,16 @@
 2023-07-21 08:33:05 info: tempDirectory:c:\Users\Xypher Solutions Inc\.vscode\extensions\embold-vscode.embold-0.1.5\temp
 2023-07-21 08:33:05 info: Extraction complete for source: c:\Users\Xypher Solutions Inc\.vscode\extensions\embold-vscode.embold-0.1.5\resources\embold-scanner-archive.zip, destination: c:\Users\Xypher Solutions Inc\.vscode\extensions\embold-vscode.embold-0.1.5\temp
 2023-07-21 08:33:05 info: Congratulations, your extension "Embold" is now active!
+2023-08-03 13:40:26 info: tempDirectory:c:\Users\Xypher Solutions Inc\.vscode\extensions\embold-vscode.embold-0.1.5\temp
+2023-08-03 13:40:26 info: Extraction complete for source: c:\Users\Xypher Solutions Inc\.vscode\extensions\embold-vscode.embold-0.1.5\resources\embold-scanner-archive.zip, destination: c:\Users\Xypher Solutions Inc\.vscode\extensions\embold-vscode.embold-0.1.5\temp
+2023-08-03 13:40:26 info: Congratulations, your extension "Embold" is now active!
+2023-08-03 14:04:44 info: tempDirectory:c:\Users\Xypher Solutions Inc\.vscode\extensions\embold-vscode.embold-0.1.5\temp
+2023-08-03 14:04:44 info: Extraction complete for source: c:\Users\Xypher Solutions Inc\.vscode\extensions\embold-vscode.embold-0.1.5\resources\embold-scanner-archive.zip, destination: c:\Users\Xypher Solutions Inc\.vscode\extensions\embold-vscode.embold-0.1.5\temp
+2023-08-03 14:04:44 info: Congratulations, your extension "Embold" is now active!
+2023-08-03 14:05:11 info: file:///c%3A/Users/Xypher%20Solutions%20Inc/Desktop/Strat/BE/model/user/userGraph
+2023-08-03 14:05:11 error: SQLITE_ERROR: no such table: issues
+2023-08-03 14:11:09 info: file:///c%3A/Users/Xypher%20Solutions%20Inc/Desktop/Strat/BE/routes/graph
+2023-08-03 14:11:09 error: SQLITE_ERROR: no such table: issues
+2023-08-04 10:50:04 info: tempDirectory:c:\Users\Xypher Solutions Inc\.vscode\extensions\embold-vscode.embold-0.1.5\temp
+2023-08-04 10:50:04 info: Extraction complete for source: c:\Users\Xypher Solutions Inc\.vscode\extensions\embold-vscode.embold-0.1.5\resources\embold-scanner-archive.zip, destination: c:\Users\Xypher Solutions Inc\.vscode\extensions\embold-vscode.embold-0.1.5\temp
+2023-08-04 10:50:04 info: Congratulations, your extension "Embold" is now active!

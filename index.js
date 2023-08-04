@@ -12,6 +12,8 @@ const errorHandler = require("./errorHandler");
 const { client } = require("./db/redis");
 const app = express();
 const port = 5000;
+const { graphqlHTTP } = require("express-graphql");
+const { root, schema } = require("./routes/graphql/root/root");
 
 app.use(morgan("combined"));
 app.use(cors());
@@ -32,7 +34,6 @@ process.on("uncaughtException", function (error) {
 const io = new Server({
   adapter: createAdapter(client),
 });
-console.log(`io:`, io)
 
 io.on("connection", (socket) => {
   console.log(socket.id); // ojIckSD2jqNzOqIrAGzL
@@ -43,7 +44,6 @@ client.on("connect", () => console.log("Redis Connected"));
 client.on("ready", () => {
   console.log("Redis Ready");
 });
- 
 
 const UserRouter = require("./routes/user/user");
 const RoomRouter = require("./routes/room/room");
@@ -52,6 +52,16 @@ const ParticipantRouter = require("./routes/participant/participant");
 app.use("/user/", UserRouter);
 app.use("/room/", RoomRouter);
 app.use("/participant/", ParticipantRouter);
+
+// GraphQL
+app.use(
+  "/graphql",
+  graphqlHTTP({
+    schema: schema,
+    rootValue: root,
+    graphiql: true,
+  })
+);
 
 app.get("/", (req, res) => {
   res.send("Server Working");
