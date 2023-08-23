@@ -13,7 +13,6 @@ const root = {
 
 const schema = buildSchema(`
   ${userTypes},
- 
   type Query {
     hello: String,
     ${userQuery},

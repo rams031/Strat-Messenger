@@ -18,6 +18,7 @@ router.post("/register", (req, res, next) => {
 
 router.post("/login", (req, res, next) => {
   const { body } = req || {};
+  console.log(`body:`, body)
   const loginUser = login(UserModel, body, res, next);
   return loginUser;
 });

@@ -32,20 +32,29 @@ const loginUserAction = async ({ email, password }) => {
   });
 };
 
-const getUserAction = async ({ email, password }) => {
+const getUserDataAction = async () => {
   return model
     .find()
     .then((response) => {
-      return res.status(200).send(response);
+      console.log(`response:`, response);
+
+      return {
+        message: "fetched",
+        status: 200,
+      };
     })
     .catch((err) => {
-      return next(err);
+      return {
+        message: "fetched",
+        status: 400,
+      };
     });
 };
 
 // User Schema / Root
 const userRootActions = {
   loginUser: loginUserAction,
+  getUserData: getUserDataAction
 };
 
 const userSchema = {
