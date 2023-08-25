@@ -48,10 +48,12 @@ client.on("ready", () => {
 const UserRouter = require("./routes/user/user");
 const RoomRouter = require("./routes/room/room");
 const ParticipantRouter = require("./routes/participant/participant");
+const MessageRouter = require("./routes/message/message");
 
 app.use("/user/", UserRouter);
 app.use("/room/", RoomRouter);
 app.use("/participant/", ParticipantRouter);
+app.use("/message/", MessageRouter);
 
 // GraphQL
 app.use(

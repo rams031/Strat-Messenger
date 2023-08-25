@@ -14,6 +14,7 @@ router.get("/", (req, res, next) => {
 
 router.get("/chatRoom", auth, (req, res, next) => {
   const { _id } = req.user;
+  console.log(`_id:`, _id)
   const customId = new Mongoose.Types.ObjectId(_id);
 
   ParticipantModel.aggregate([
@@ -52,6 +53,7 @@ router.get("/chatRoom", auth, (req, res, next) => {
     // },
   ])
     .then((data) => {
+      console.log(`data:`, data)
       res.status(200).send(data);
     })
     .catch((err) => {
@@ -65,7 +67,6 @@ router.post("/createroom", auth, async (req, res, next) => {
 
   await RoomModel.create({ roomName })
     .then(async (response) => {
-      console.log(`response:`, response);
       const { _id } = response || {};
       if (!_id) return res.status(400).send({ message: "Having Problem" });
 

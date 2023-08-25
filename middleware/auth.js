@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 
 const verifyBearer = (req, res, next) => {
-  console.log(`req:`, req)
   if (!req.headers.authorization)
     return res.status(403).send("No authorized access");
   const token = req.headers.authorization.split(" ")[1];

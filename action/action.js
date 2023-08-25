@@ -14,6 +14,18 @@ const view = (model, res, req, next) => {
     });
 };
 
+const viewId = (model, params, res, req, next) => {
+  model
+    .find(params)
+    .then((response) => {
+      saveCache(req, response);
+      return res.status(200).send(response);
+    })
+    .catch((err) => {
+      return next(err);
+    });
+};
+
 const viewOne = (model, body, res, next) => {
   const { _id } = body;
 
@@ -71,4 +83,5 @@ module.exports = {
   create,
   view,
   login,
+  viewId
 };
