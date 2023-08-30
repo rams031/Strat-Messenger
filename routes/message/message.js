@@ -8,11 +8,6 @@ const { client } = require("../../db/redis");
 const { Server } = require("socket.io");
 const { createAdapter } = require("@socket.io/redis-streams-adapter");
 
-const io = new Server({
-  adapter: createAdapter(client),
-});
-
-
 router.get("/", (req, res, next) => {
   const getAllMessage = view(MessageModel, res, next);
   return getAllMessage;
@@ -56,10 +51,6 @@ router.post("/sendmessage", auth, (req, res) => {
   MessageModel.create(messageDataSet)
     .then((result) => {
       res.status(201).send(result);
-      io.on("connection", (socket) => {
-        socket.emit("hello", "world");
-      });
-      
     })
     .catch((err) => {
       return next(err);

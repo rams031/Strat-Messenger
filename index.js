@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const { Server } = require("socket.io");
 const { createServer } = require("http");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
@@ -15,49 +16,79 @@ const { root, schema } = require("./routes/graphql/root/root");
 const app = express();
 const port = 5000;
 
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
-
-// app.use(morgan("combined"));
+app.use(morgan("combined"));
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// const io = createServer(app);
-// const socket = new Server(io, {
-//   cors: {
-//     origin: "*",
-//   },
+// Redis Connection
+// (async () => {
+//   // await client.connect();
+//   client.flushDb();
+// })();
+
+// client.on("ready", () => {
+//   console.log("Redis Ready");
 // });
 
-io.on("connection", (socket) => {
-  console.log(socket.id); // ojIckSD2jqNzOqIrAGzL
-  console.log('a user connected')
+// * connnect to redis
+const pubClient = client;
+const subClient = pubClient.duplicate();
+
+const server = createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+  },
+  transports: ["websocket"],
 });
 
-// io.listen(3000);
+// Connect to redis
+Promise.all([pubClient.connect(), subClient.connect()]).then(() => {
+  // pubClient.flushDb();
+  io.adapter(createAdapter(pubClient, subClient));
+  io.listen(16518);
+});
+
+io.on("connection", (socket) => {
+  socket.on("join-room", (roomId) => {
+    socket.join(roomId);
+    console.log("roomID GALING FRONTEND", roomId)
+  });
+
+  socket.on("send-message", (roomId) => {
+    console.log(`roomId:`, roomId)
+    io.to(roomId).emit("message", "message sent");
+  });
+
+  socket.onAny((eventName, ...args) => {
+    console.log(`eventName:`, eventName)
+    console.log(`args:`, args)
+    // ...
+  });
+});
+
+// Global Socket
+global.io = io;
 
 process.on("uncaughtException", function (error) {
   console.log(error.stack);
 });
 
-mongoose.connect(db, {});
-
-(async () => {
-  await client.connect();
-  client.flushDb();
-})();
-
-client.on("error", (err) => console.log("Redis error " + err));
-client.on("connect", () => console.log("Redis Connected"));
-client.on("ready", () => {
-  console.log("Redis Ready");
-});
+mongoose
+  .connect(db, {})
+  .then(() => {
+    console.log("Connected to database");
+  })
+  .catch((error) => {
+    throw error;
+  });
 
 const UserRouter = require("./routes/user/user");
 const RoomRouter = require("./routes/room/room");
 const ParticipantRouter = require("./routes/participant/participant");
 const MessageRouter = require("./routes/message/message");
+const { createAdapter } = require("@socket.io/redis-streams-adapter");
 
 app.use("/user/", UserRouter);
 app.use("/room/", RoomRouter);
@@ -79,8 +110,8 @@ app.get("/", (req, res) => {
 });
 
 app.use(errorHandler);
- 
-http.listen(port, (res, req) => {
+
+server.listen(port, (res, req) => {
   console.log(`Example app listening at http://localhost:${port}`);
   console.log(mongoose.connection.readyState);
 });
