@@ -1,43 +1,52 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const { Server } = require("socket.io");
-const { createAdapter } = require("@socket.io/redis-streams-adapter");
-
+const { createServer } = require("http");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const jwt = require("jsonwebtoken");
+
 const db = require("./db/db");
 const errorHandler = require("./errorHandler");
 const { client } = require("./db/redis");
-const app = express();
-const port = 5000;
 const { graphqlHTTP } = require("express-graphql");
 const { root, schema } = require("./routes/graphql/root/root");
 
-app.use(morgan("combined"));
+const app = express();
+const port = 5000;
+
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+
+// app.use(morgan("combined"));
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-mongoose.connect(db, {});
+// const io = createServer(app);
+// const socket = new Server(io, {
+//   cors: {
+//     origin: "*",
+//   },
+// });
+
+io.on("connection", (socket) => {
+  console.log(socket.id); // ojIckSD2jqNzOqIrAGzL
+  console.log('a user connected')
+});
+
+// io.listen(3000);
 
 process.on("uncaughtException", function (error) {
   console.log(error.stack);
 });
 
+mongoose.connect(db, {});
+
 (async () => {
   await client.connect();
   client.flushDb();
 })();
-
-const io = new Server({
-  adapter: createAdapter(client),
-});
-
-io.on("connection", (socket) => {
-  console.log(socket.id); // ojIckSD2jqNzOqIrAGzL
-});
 
 client.on("error", (err) => console.log("Redis error " + err));
 client.on("connect", () => console.log("Redis Connected"));
@@ -70,8 +79,8 @@ app.get("/", (req, res) => {
 });
 
 app.use(errorHandler);
-
-app.listen(port, (res, req) => {
+ 
+http.listen(port, (res, req) => {
   console.log(`Example app listening at http://localhost:${port}`);
   console.log(mongoose.connection.readyState);
 });

@@ -4,6 +4,14 @@ const MessageModel = require("./../../model/message/message");
 
 const auth = require("./../../middleware/auth");
 const { view, viewId } = require("./../../action/action");
+const { client } = require("../../db/redis");
+const { Server } = require("socket.io");
+const { createAdapter } = require("@socket.io/redis-streams-adapter");
+
+const io = new Server({
+  adapter: createAdapter(client),
+});
+
 
 router.get("/", (req, res, next) => {
   const getAllMessage = view(MessageModel, res, next);
@@ -28,7 +36,6 @@ router.get("/:id", auth, (req, res, next) => {
     },
   ])
     .then((response) => {
-      console.log(`response:`, response);
       return res.status(200).send(response);
     })
     .catch((err) => {
@@ -49,6 +56,10 @@ router.post("/sendmessage", auth, (req, res) => {
   MessageModel.create(messageDataSet)
     .then((result) => {
       res.status(201).send(result);
+      io.on("connection", (socket) => {
+        socket.emit("hello", "world");
+      });
+      
     })
     .catch((err) => {
       return next(err);

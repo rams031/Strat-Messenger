@@ -12,9 +12,6 @@ const loginUserAction = async ({ email, password }) => {
     if (result && password === result[0].password) {
       const token = generateAccessToken({ ...result[0] });
 
-      console.log(typeof result);
-      console.log(`result:`, result);
-
       // const data = {
       //   // data: result,
       //   // token: token,
@@ -36,7 +33,6 @@ const getUserDataAction = async () => {
   return model
     .find()
     .then((response) => {
-      console.log(`response:`, response);
 
       return {
         message: "fetched",

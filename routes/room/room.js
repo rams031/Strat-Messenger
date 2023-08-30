@@ -14,7 +14,6 @@ router.get("/", (req, res, next) => {
 
 router.get("/chatRoom", auth, (req, res, next) => {
   const { _id } = req.user;
-  console.log(`_id:`, _id)
   const customId = new Mongoose.Types.ObjectId(_id);
 
   ParticipantModel.aggregate([
@@ -53,7 +52,6 @@ router.get("/chatRoom", auth, (req, res, next) => {
     // },
   ])
     .then((data) => {
-      console.log(`data:`, data)
       res.status(200).send(data);
     })
     .catch((err) => {
