@@ -21,16 +21,6 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// Redis Connection
-// (async () => {
-//   // await client.connect();
-//   client.flushDb();
-// })();
-
-// client.on("ready", () => {
-//   console.log("Redis Ready");
-// });
-
 // * connnect to redis
 const pubClient = client;
 const subClient = pubClient.duplicate();
@@ -45,7 +35,7 @@ const io = new Server(server, {
 
 // Connect to redis
 Promise.all([pubClient.connect(), subClient.connect()]).then(() => {
-  // pubClient.flushDb();
+  pubClient.flushDb();
   io.adapter(createAdapter(pubClient, subClient));
   io.listen(16518);
 });
@@ -53,12 +43,15 @@ Promise.all([pubClient.connect(), subClient.connect()]).then(() => {
 io.on("connection", (socket) => {
   socket.on("join-room", (roomId) => {
     socket.join(roomId);
-    console.log("roomID GALING FRONTEND", roomId)
   });
 
   socket.on("send-message", (roomId) => {
-    console.log(`roomId:`, roomId)
     io.to(roomId).emit("message", "message sent");
+  });
+
+  socket.on("typing-action-room", (data) => {
+    const { roomId, email } = data || {};
+    io.to(roomId).emit("typing-event", email);
   });
 
   socket.onAny((eventName, ...args) => {

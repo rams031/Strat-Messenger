@@ -10,6 +10,15 @@ router.get("/", (req, res, next) => {
   return getAllUser;
 });
 
+router.get("/info", auth, (req, res, next) => {
+  if (req.user) return res.status(200).send({
+    data: req.user,
+    message: "Account Exist",
+  });
+
+  return res.status(422).send({ message: "No Account Found" });
+})
+
 router.post("/register", (req, res, next) => {
   const { body } = req || {};
   const createUser = create(UserModel, body, res, next);

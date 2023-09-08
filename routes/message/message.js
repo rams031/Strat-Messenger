@@ -29,6 +29,7 @@ router.get("/:id", auth, (req, res, next) => {
         as: "userDetails",
       },
     },
+    { $sort : { _id : -1 } }
   ])
     .then((response) => {
       return res.status(200).send(response);
