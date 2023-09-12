@@ -41,12 +41,13 @@ router.get("/:id", auth, (req, res, next) => {
 
 router.post("/sendmessage", auth, (req, res) => {
   const { _id: userId } = req.user;
-  const { message, roomId } = req.body;
+  const { message, roomId, imageUrl } = req.body || {};
 
   const messageDataSet = {
     roomId: roomId,
     userId: userId,
     messageDescription: message,
+    imageUrl: imageUrl ?? ""
   };
 
   MessageModel.create(messageDataSet)

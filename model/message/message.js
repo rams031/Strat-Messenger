@@ -13,6 +13,7 @@ const MessageScheme = mongoose.Schema(
       ref: "User",
     },
       messageDescription: String,
+      imageUrl: String
   },
   { timestamps: true }
 );
