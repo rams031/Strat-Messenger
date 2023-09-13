@@ -14,7 +14,7 @@ const { graphqlHTTP } = require("express-graphql");
 const { root, schema } = require("./routes/graphql/root/root");
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 3000;;
 
 app.use(morgan("combined"));
 app.use(cors());
