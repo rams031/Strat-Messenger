@@ -51,7 +51,7 @@ io.on("connection", (socket) => {
 
   socket.on("typing-action-room", (data) => {
     const { roomId, email } = data || {};
-    io.to(roomId).emit("typing-event", email);
+    io.to(roomId).emit("typing-event", data);
   });
 
   socket.onAny((eventName, ...args) => {

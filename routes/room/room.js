@@ -42,8 +42,22 @@ router.get("/chatRoom", auth, (req, res, next) => {
         as: "roomDetails",
       },
     },
-    { 
-      $sort: { "_id": -1 } 
+ 
+    {
+      $lookup: {
+        from: "messages",
+        localField: "_id.roomId",
+        foreignField: "roomId",
+        as: "messageData",
+      },
+    },
+    {
+      $addFields: {
+        messageData: { $slice: ["$messageData", -1] },
+      },
+    },
+    {
+      $sort: { _id: -1 },
     },
     // {
     //   $project: {
